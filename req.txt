@@ -1,5 +1,3 @@
 discord.py
 rich
 python-dotenv
-
-
