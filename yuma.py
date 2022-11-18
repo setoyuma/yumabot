@@ -56,13 +56,20 @@ async def yuma_tweak(ctx)->str:
     await ctx.send(response)
     return response
 
-@yumabot.command(name='d20',help='rolls a 20 sided die')
-async def yuma_d20(ctx)->int:
+# dice roll commands
+def throw_dice(side_query)->str:
     sides = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    
-    player_roll = random.choice(sides)
-    await ctx.send(f'\t{ctx.message.author.name} Rolled {str(player_roll)}\n')
-    return player_roll
+    print((random.choice(sides)))
+
+@yumabot.command(name='d20',help='rolls a 20 sided die')
+async def yuma_d20(ctx)->None:    
+
+    querey_dice = int(input('# of dice (max 2):'))        
+    dice = querey_dice     
+
+    for i in range(dice):
+        await ctx.send(f'{ctx.message.author.name}Roll #{i}: {throw_dice()}\t|| ')
+
 
 '''yumabot/user_interactive embeds'''
 @yumabot.command(name='yumahelp',help='a more comprehensive explanation of yumabot and its commands')
