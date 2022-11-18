@@ -5,6 +5,7 @@ import datetime
 import getpass
 import time as t
 import discord as d
+from discord import app_commands
 from discord.ext import commands
 import random
 
@@ -23,17 +24,26 @@ TOKEN=os.getenv('DISCORD_TOKEN')
 ADMINK=os.getenv('ADMINK')
 ADMINKGET = getpass.getpass(prompt='\n\tenter admin key:')
 yumabot=commands.Bot(command_prefix='r/', intents=intents)
+# yumabot=d.Client(intents=intents)
+# TREE=app_commands.CommandTree(yumabot)
 with open('skull.txt','r') as skullF:
     SKULLYBOI = skullF.read()
     
 '''yumabot events'''
 @yumabot.event
 async def on_ready():
+    # await TREE.sync()
     print('\n\n\t\tyumabot ascii art\n\n')
     t.sleep(2)
     print(f'\n\t{yumabot.user.name} is online...\n')
 
 '''yumabot commands'''
+'''
+test slash command:
+
+@TREE.command(name='speak',description='yumabot talk')
+async def yuma_speak(interaction):
+    await interaction.response.send_message('what bozo')'''
 
 @yumabot.command(name='tweak',help='yumabot says something out of the box')
 async def yuma_tweak(ctx)->str:
@@ -59,16 +69,16 @@ async def yuma_tweak(ctx)->str:
 # dice roll commands
 def throw_dice(side_query)->str:
     sides = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    print((random.choice(sides)))
+    return(str(random.choice(sides)))
 
-@yumabot.command(name='d20',help='rolls a 20 sided die')
+@yumabot.command(name='roll',help='rolls a 20 sided die')
 async def yuma_d20(ctx)->None:    
 
     querey_dice = int(input('# of dice (max 2):'))        
     dice = querey_dice     
 
     for i in range(dice):
-        await ctx.send(f'{ctx.message.author.name}Roll #{i}: {throw_dice()}\t|| ')
+        await ctx.send(f'{ctx.message.author.name}Roll #{i}: {throw_dice(dice)}\t|| ')
 
 
 '''yumabot/user_interactive embeds'''
