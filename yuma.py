@@ -106,7 +106,7 @@ async def yuma_help_embed(ctx:spawn.CommandContext):
         icon_url='https://avatars.githubusercontent.com/u/118138305?v=4'
         )
     
-    #thumbnail
+    #thumbnail  
     embed.set_thumbnail(
         url='https://avatars.githubusercontent.com/u/118138305?v=4'
         )
