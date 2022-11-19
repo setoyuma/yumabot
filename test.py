@@ -1,13 +1,26 @@
 import random
+ask = input('\n\twhat are you rolling <d20, d12, d10, d8, d6, d4>:  ')
 
-sides = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-
-def throw_dice()->str:
-    print((random.choice(sides)))
+def setSides(ask:str):
 
 
-def roll(dice):
-    for i in range(dice):
-        throw_dice()
+    sides=[]
+    dice = {
+        'd20':20,
+        'd12':12,
+        'd10':10,
+        'd8':8,
+        'd6':6,
+        'd4':4,
+    }
 
-roll(2)
+    if ask in dice:
+        for i in range(dice[ask]):
+            sides.append(i)
+        # print(dice[ask])
+        print(f'USER.NAME Rolled: {random.choice(sides)}')
+    if ask not in dice:
+        print('ERROR#600:invalid_dice_type')
+
+setSides(ask)
+
