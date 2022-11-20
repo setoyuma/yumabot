@@ -6,6 +6,7 @@ import getpass
 import time as t
 import interactions as spawn
 import random
+import error_lib
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,21 +23,31 @@ TOKEN=os.getenv('TKN')
 ADMINK=os.getenv('ADMINK')
 DEV_SERVER_ID=int(os.getenv('DEV_SERVER_ID'))
 ADMINKGET = getpass.getpass(prompt='\n\tenter admin key:')
-# yumaden=commands.Bot(command_prefix='r/', intents=intents)
 yumaden=spawn.Client(token=TOKEN)
+with open('logo_ascii.txt', 'r') as logoF:
+    ASCII_LOGO=logoF.read()
 with open('skull.txt','r') as skullF:
     SKULLYBOI = skullF.read()
 
 
+'''yumaden events'''
 
-'''yumaden class'''
 @yumaden.event
 async def on_ready():
-    print('\n\n\t\tyumaden ascii art\n\n')
+    os.system('cls')
+    print(f'\n\n\t\t{ASCII_LOGO}\n\n')
     t.sleep(2)
     print(f'\n\t{yumaden.me.name} is online...\n')
 
+
 '''yumaden commands'''
+
+#meemdex
+@yumaden.command(name='meemdex',scope=DEV_SERVER_ID)
+async def meemdex(ctx:spawn.CommandContext):
+    pass
+
+
 @yumaden.command(name='mirror',scope=DEV_SERVER_ID)
 @spawn.option(name='blurb',description='says it back',required=False)
 async def say_something(ctx: spawn.CommandContext, blurb: str):
@@ -44,9 +55,25 @@ async def say_something(ctx: spawn.CommandContext, blurb: str):
     await ctx.send(f"You said '{blurb}'!")
 
 #roll command
-@yumaden.command(name='roll',scope=DEV_SERVER_ID)
-@spawn.option(name='ask_dice_sides',description='pick and roll -> ( d20, d12, d10, d8, d6, d4 )',required=True)
-async def yuma_roll(ctx: spawn.CommandContext, ask_dice_sides: str):
+@yumaden.command(
+    name='roll',
+    scope=DEV_SERVER_ID,
+    options=[
+        spawn.Option(
+            name='ask_dice_num',
+            description='how many dice -> ( 1 or 2 )',
+            type=spawn.OptionType.INTEGER,
+            required=True
+            ),
+        spawn.Option(
+            name='ask_dice_sides',
+            description='pick and roll -> ( d20, d12, d10, d8, d6, d4 )',
+            type=spawn.OptionType.STRING,
+            required=True
+            ),
+        ]
+    )
+async def yuma_roll(ctx: spawn.CommandContext,ask_dice_num,ask_dice_sides):
     """\n\twhat are you rolling -> ( d20, d12, d10, d8, d6, d4 )  """
     sides = []
     dice = {
@@ -58,14 +85,25 @@ async def yuma_roll(ctx: spawn.CommandContext, ask_dice_sides: str):
         'd4':4,
     }
 
-    if ask_dice_sides in dice:
-        for i in range(dice[ask_dice_sides]):
-            sides.append(i)
-            # print(dice[ask])
-        await ctx.send(f'{ctx.author.name} rolls a: {random.choice(sides)}')
-    if ask_dice_sides not in dice:
-        import error_lib
-        await ctx.send(error_lib.lib["invalid_dice_type"])
+    if ask_dice_num > 0 and ask_dice_num < 3:
+        
+        if ask_dice_sides in dice:
+
+            for dice_sides in range(dice[ask_dice_sides]):
+
+                sides.append(dice_sides)
+                continue
+
+            if int(ask_dice_num) == 1:
+                await ctx.send(f'{ctx.author.name} rolled a: {random.choice(sides)}')
+
+            elif int(ask_dice_num) == 2:
+                await ctx.send(f'{ctx.author.name} rolled a: {random.choice(sides)}  --|--  {random.choice(sides)}')
+
+        if ask_dice_sides not in dice:
+            await ctx.send(error_lib.lib['invalid_dice_type'])
+    else:
+        await ctx.send(error_lib.lib['invalid_dice_num'])
     
 
 @yumaden.command(name='tweak',description='yumaden says something out of the box',scope=DEV_SERVER_ID)
@@ -152,7 +190,7 @@ async def yuma_help_embed(ctx:spawn.CommandContext):
 '''yumaden config functions'''
 def runyuma(spawn,admink:str)->bool:
     if admink.capitalize() != ADMINK:
-        print('\n\tyumaden startup failed...\n\n\t\tinvalid key:',ADMINKGET)
+        print('\n\tyumaden startup failed...\n\n\t\tinvalid key:')
         t.sleep(3)
         #log admin failures in adminlogin_fail.txt
         os.system('cls')

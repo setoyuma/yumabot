@@ -1,11 +1,12 @@
+import error_lib
 import random
-ask = input('\n\twhat are you rolling <d20, d12, d10, d8, d6, d4>:  ')
 
-def setSides(ask:str):
+ask_dice_num=int(input("dice num: "))
+ask_dice_sides=str(input("dice type: "))
+userName = 'seto'
 
-
-    sides=[]
-    dice = {
+sides = []
+dice = {
         'd20':20,
         'd12':12,
         'd10':10,
@@ -13,14 +14,18 @@ def setSides(ask:str):
         'd6':6,
         'd4':4,
     }
+if ask_dice_num > 0 and ask_dice_num < 3:
+    for dice_num in range(ask_dice_num):
+        
+        if ask_dice_sides in dice:
 
-    if ask in dice:
-        for i in range(dice[ask]):
-            sides.append(i)
-        # print(dice[ask])
-        print(f'USER.NAME Rolled: {random.choice(sides)}')
-    if ask not in dice:
-        print('ERROR#600:invalid_dice_type')
+            for dice_sides in range(dice[ask_dice_sides]):
 
-setSides(ask)
-
+                sides.append(dice_sides)
+                continue
+            print(f'{userName} rolled: {random.choice(sides)}')
+            continue
+    if ask_dice_sides not in dice:
+        print(error_lib.lib['invalid_dice_type'])
+else:
+    print(error_lib.lib['invalid_dice_num'])
