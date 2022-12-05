@@ -170,7 +170,7 @@ async def yuRoll(ctx: spawn.CommandContext,ask_dice_num,ask_dice_sides):
                 continue
 
             if int(ask_dice_num) == 1:
-                await ctx.send(f'{ctx.author.name} rolled a: {random.choice(sides)+statMod}')
+                await ctx.send(f'{ctx.author.name} rolled a: {random.choice(sides)}')
 
             elif int(ask_dice_num) == 2:
                 await ctx.send(f'{ctx.author.name} rolled a: {random.choice(sides)}  --|--  {random.choice(sides)}')
