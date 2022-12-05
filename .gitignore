@@ -1,5 +1,4 @@
 .env
-.gitignore
 yuma_env/skull.txt
 yuma_env/apiMAIN.py
 yuma_env/codeTests.py
