@@ -1,0 +1,12 @@
+./.gitignore
+./.env
+yuma_env/skull.txt
+yuma_env/apiMAIN.py
+yuma_env/codeTests.py
+yuma_env/error_lib.py
+yuma_env/pyvenv.cfg
+yuma_env/test_yuma_unittest.py
+yuma_env/req.txt
+yuma_env/test.py
+yuma_env/notes.txt
+yuma_env/logo_ascii.txt
