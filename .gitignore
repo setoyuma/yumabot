@@ -3,7 +3,6 @@ yuma_env/skull.txt
 yuma_env/apiMAIN.py
 yuma_env/codeTests.py
 yuma_env/error_lib.py
-yuma_env/*
 yuma_env/test_yuma_unittest.py
 yuma_env/req.txt
 yuma_env/test.py
